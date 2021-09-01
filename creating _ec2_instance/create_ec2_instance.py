@@ -18,7 +18,7 @@ def create_ec2_instance():
     :return: Creates the EC2 instance.
     """
     try:
-        print ("Creating EC2 instance")
+        logger.info("Creating EC2 instance")
         ec2_resource = boto3.client("ec2")
         ec2_resource.run_instances(
             ImageId="ami-0c1a7f89451184c8b",
@@ -28,7 +28,7 @@ def create_ec2_instance():
             KeyName="rikesh_mumbai_ec2"
         )
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def describe_ec2_instance():
@@ -38,12 +38,12 @@ def describe_ec2_instance():
        
     """
     try:
-        print ("Describing EC2 instance")
+        logger.info("Describing EC2 instance")
         resource_ec2 = boto3.client("ec2")
-        print(resource_ec2.describe_instances()["Reservations"][0]["Instances"][0]["InstanceId"])
+        logger.info(resource_ec2.describe_instances()["Reservations"][0]["Instances"][0]["InstanceId"])
         return str(resource_ec2.describe_instances()["Reservations"][0]["Instances"][0]["InstanceId"])
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def reboot_ec2_instance():
@@ -53,12 +53,12 @@ def reboot_ec2_instance():
        
     """
     try:
-        print ("Reboot EC2 instance")
+        logger.info("Reboot EC2 instance")
         instance_id = describe_ec2_instance()
         resource_ec2 = boto3.client("ec2")
-        print(resource_ec2.reboot_instances(InstanceIds=[instance_id]))
+        logger.info(resource_ec2.reboot_instances(InstanceIds=[instance_id]))
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def stop_ec2_instance():
@@ -68,12 +68,12 @@ def stop_ec2_instance():
        
     """
     try:
-        print ("Stop EC2 instance")
+        logger.info("Stop EC2 instance")
         instance_id = describe_ec2_instance()
         resource_ec2 = boto3.client("ec2")
-        print(resource_ec2.stop_instances(InstanceIds=[instance_id]))
+        logger.info(resource_ec2.stop_instances(InstanceIds=[instance_id]))
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def start_ec2_instance():
@@ -83,12 +83,12 @@ def start_ec2_instance():
        
     """
     try:
-        print ("Start EC2 instance")
+        logger.info("Start EC2 instance")
         instance_id = describe_ec2_instance()
         resource_ec2 = boto3.client("ec2")
-        print(resource_ec2.start_instances(InstanceIds=[instance_id]))
+        logger.info(resource_ec2.start_instances(InstanceIds=[instance_id]))
     except Exception as e:
-        print(e)
+        logger.error(e)
 
 
 def terminate_ec2_instance():
@@ -98,17 +98,18 @@ def terminate_ec2_instance():
        
     """
     try:
-        print ("Terminate EC2 instance")
+        logger.info("Terminate EC2 instance")
         instance_id = describe_ec2_instance()
         resource_ec2 = boto3.client("ec2")
-        print(resource_ec2.terminate_instances(InstanceIds=[instance_id]))
+        logger.info(resource_ec2.terminate_instances(InstanceIds=[instance_id]))
     except Exception as e:
-        print(e)
+        logger.error(e)
 
+if __name__=="__main__":
 
-# create_ec2_instance()
-# describe_ec2_instance()
-# reboot_ec2_instance()
-# stop_ec2_instance()
-# start_ec2_instance()
-# terminate_ec2_instance()
+    create_ec2_instance()
+    describe_ec2_instance()
+    reboot_ec2_instance()
+    stop_ec2_instance()
+    start_ec2_instance()
+    terminate_ec2_instance()
